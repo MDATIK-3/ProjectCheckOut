@@ -60,9 +60,12 @@ export default function SuccessContent() {
                                     <span className="font-medium">{contactInfo?.address || 'TBD'}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">Total Amount:</span>
-                                    <span className="font-medium text-cyan-800">{formatCurrency(total)}</span>
+                                    <span className="text-gray-600">Total Amount (with 18% Service Charge):</span>
+                                    <span className="font-semibold text-cyan-800">
+                                        {formatCurrency(total)}
+                                    </span>
                                 </div>
+
                             </div>
                         </div>
 
