@@ -18,7 +18,7 @@ export default function Header() {
                 <div className="w-full py-6 flex items-center justify-between border-b border-cyan-500 lg:border-none">
                     <div className="flex items-center">
                         <Link href="/">
-                            <span className="text-2xl font-bold text-cyan-600">CateringCo</span>
+                            <span className="text-2xl font-bold text-cyan-600">CateringSR</span>
                         </Link>
                         <div className="hidden ml-10 space-x-8 lg:block">
                             <Link

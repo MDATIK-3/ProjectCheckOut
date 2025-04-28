@@ -4,7 +4,7 @@ export default function OrderSteps({ currentStep }) {
     const steps = [
         { id: 'dashboard', name: 'Start', href: '/' },
         { id: 'menu', name: 'Menu', href: '/menu' },
-        { id: 'contact', name: 'Contact & Payment', href: '/contact' },
+        { id: 'contact', name: 'Payment', href: '/contact' },
         { id: 'success', name: 'Confirmation', href: '/success' }
     ]
 

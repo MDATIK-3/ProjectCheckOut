@@ -1,40 +1,45 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, Info, ShoppingCart, Users, Check } from 'lucide-react'
+import { useOrder } from '../contexts/OrderContext'
+import { ChevronLeft, Info, ShoppingCart, Check } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import OrderSteps from '../components/OrderSteps'
 import MenuCard from '../components/MenuCard'
 import { menuItems } from '../lib/utils'
 
 export default function MenuContent() {
-  const [selectedMenus, setSelectedMenus] = useState([])
   const router = useRouter()
+  
+  const {
+    selectedMenus,
+    addMenu,
+    removeMenu,
+    totalPrice,
+    totalGuests,
+  } = useOrder()
 
-  const addMenu = (menu, guestCount) => {
+  const handleAddMenu = (menu, guestCount) => {
     if (!guestCount || guestCount <= 0) {
       toast.error("Guest count must be at least 1")
       return false
     }
 
     const exists = selectedMenus.find(m => m.id === menu.id)
+    addMenu(menu, guestCount)
+
     if (exists) {
-      setSelectedMenus(prev => 
-        prev.map(m => m.id === menu.id ? { ...m, guestCount } : m)
-      )
       toast.success(`${menu.title} updated for ${guestCount} guests`)
     } else {
-      setSelectedMenus(prev => [...prev, { ...menu, guestCount }])
       toast.success(`${menu.title} added for ${guestCount} guests`)
     }
     return true
   }
 
-  const removeMenu = (menuId) => {
+  const handleRemoveMenu = (menuId) => {
     const menu = selectedMenus.find(m => m.id === menuId)
-    setSelectedMenus(prev => prev.filter(m => m.id !== menuId))
+    removeMenu(menuId)
     if (menu) {
       toast.success(`${menu.title} removed`)
     }
@@ -47,9 +52,6 @@ export default function MenuContent() {
     }
     router.push('/contact')
   }
-
-  const totalPrice = selectedMenus.reduce((acc, menu) => acc + (menu.pricePerPerson * menu.guestCount), 0)
-  const totalGuests = selectedMenus.reduce((acc, menu) => acc + menu.guestCount, 0)
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col py-8">
@@ -89,8 +91,8 @@ export default function MenuContent() {
                       key={menu.id}
                       menu={menu}
                       isSelected={selectedMenus.some(m => m.id === menu.id)}
-                      onSelect={addMenu}
-                      onRemove={removeMenu}
+                      onSelect={handleAddMenu}
+                      onRemove={handleRemoveMenu}
                     />
                   ))
                 ) : (
